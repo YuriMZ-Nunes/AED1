@@ -5,8 +5,7 @@ float pesoIdeal(float altura, char sexo){
     if(sexo == 'm'){
         peso = (72.7 * altura) - 58;
         return peso;
-    }
-    else{
+    }else{
         peso = (62.1 * altura) - 44.7;
         return peso;
     }
