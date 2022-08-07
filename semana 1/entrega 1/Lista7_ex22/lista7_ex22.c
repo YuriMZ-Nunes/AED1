@@ -8,7 +8,6 @@ com pontos de exclamção, conforme o exemplo abaixo (para n = 5):
 !!!!
 !!!!!
 
-
 */
 
 #include <stdio.h>
