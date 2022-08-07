@@ -1,3 +1,18 @@
+/*
+
+Escreva uma função que gera um triãngulo lateral de altura ( 2*n-1 ) e n largura. Por exem- ˆ
+plo, a saída para n = 4 seria:
+
+*
+**
+***
+****
+***
+**
+*
+
+*/
+
 #include<stdio.h>
 
 void Triangulo( int n ){

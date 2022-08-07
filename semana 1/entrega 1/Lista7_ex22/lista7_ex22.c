@@ -1,3 +1,16 @@
+/*
+
+Crie uma função que receba como parãmetro um valor inteiro e gere como saída n linhas
+com pontos de exclamção, conforme o exemplo abaixo (para n = 5):
+!
+!!
+!!!
+!!!!
+!!!!!
+
+
+*/
+
 #include <stdio.h>
 
 void Exclm( int qtd ){
