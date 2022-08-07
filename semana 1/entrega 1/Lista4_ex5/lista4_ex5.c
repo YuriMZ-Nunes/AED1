@@ -4,15 +4,15 @@ int main(){
     int num[10];
     int pares = 0;
 
-    for(int i=0; i<10; i++){
-        printf("%d: ", i+1);
-        scanf("%d", &num[i]);
-        if(num[i]%2 == 0){
+    for( int i=0; i<10; i++ ){
+        printf( "%d: ", i+1);
+        scanf( "%d", &num[i] );
+        if( num[i]%2 == 0 ){
             pares+=1;
         }
     }
 
-    printf("A quantidade de pares é: %d\n", pares);
+    printf( "A quantidade de pares é: %d\n", pares );
 
 
 }
