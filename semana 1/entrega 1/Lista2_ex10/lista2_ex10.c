@@ -31,6 +31,9 @@ int main(){
     printf( "Digite se sexo(m/f): " );
     scanf( "%c", &sexo );
     
+    
     printf( "Seu peso ideal é: %0.2f", PesoIdeal(altura, sexo) );
+
+    return 0;
 
 }
