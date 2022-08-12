@@ -20,5 +20,5 @@ int main(){
 
     printf( "A quantidade de pares é: %d\n", pares );
 
-
+    return 0;
 }
