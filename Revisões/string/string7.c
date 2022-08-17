@@ -25,7 +25,7 @@ int main(){
     }
 
     if(equals == 1){
-        printf("são iguais");
+        printf("são iguais.");
     }
 
     
