@@ -29,5 +29,5 @@ int main(){
         printf("O(A) %s gastara %0.2f litros para percorrer 1000 KM\n", tabelaCarros[i], 1000/consumo[i]);
     }
 
-    printf("O modelo mais economico: %s",maisEconomico);
+    printf("O modelo mais economico eh o(a) %s",maisEconomico);
 } 
