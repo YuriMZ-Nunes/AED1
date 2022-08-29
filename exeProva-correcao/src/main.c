@@ -14,7 +14,7 @@ int main(){
 
 	preencher(pBuffer, tam);
 
-	free(pBuffer);
+	free(pBuffer); //Liberando a memória ao fechar
 
 }
 
@@ -43,7 +43,7 @@ void preencher(int *pBuffer, int tam){
 
 	for(int i = 0; i < tam; i++){
 		if(busca == *pBuffer){
-			for(int j = i; j < tam - 1; j++){
+			for(int j = i; j < tam - 1; j++){	// tam - 1 para evitar o acesso fora do buffer
 				*pBuffer = *(pBuffer+1);
 				pBuffer++;
 			}
@@ -60,11 +60,11 @@ void preencher(int *pBuffer, int tam){
 		for(int i = 0; i < tam; i++){
 			for(j = i; j < tam; j++){
 				if(*(pBuffer + i) + *(pBuffer + j) == busca){
-					for(int k = i; k < tam - 1; k++){
+					for(int k = i; k < tam - 1; k++){	// tam - 1 para evitar o acesso fora do buffer
 						*(pBuffer + k) = *(pBuffer + k + 1);
 					}
 					tam--;
-					for(int k = j - 1; k < tam - 1; k++){
+					for(int k = j - 1; k < tam - 1; k++){	// correção do erro de remoção do numero: j - 1 para remover a posição correta. 
 						*(pBuffer + k) = *(pBuffer + k + 1);
 					}
 					tam--;
