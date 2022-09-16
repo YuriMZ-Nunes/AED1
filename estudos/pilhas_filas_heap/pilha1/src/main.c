@@ -26,12 +26,12 @@ void menu(int *pBuffer){
 
 	switch(getchar()){
 		case '1':
-			push(pBuffer);
 			getchar();
+			push(pBuffer);
 			break;
 		case '3':
-			list(pBuffer);
 			getchar();
+			list(pBuffer);
 			break;
 		
 	}
@@ -43,7 +43,7 @@ void push(int *pBuffer){
 	printf("\nDigite um numero inteiro: ");
 	scanf("%d", pBuffer + (2 + (*pBuffer)));
 	*(pBuffer + 1) = (int)(pBuffer + ((2 + (*pBuffer))));
-  
+	
 	getchar();
 	menu(pBuffer);
 }
