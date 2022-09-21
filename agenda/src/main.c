@@ -44,12 +44,12 @@ void *push(void **pBuffer, void **pFirst){
     int *i = malloc(sizeof(int));
     int *j = malloc(sizeof(int));
 
-    //char **pNext = malloc(sizeof(char)); //criando espaço para o ponteiro para o proximo
-    //char **pPrevios = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior
+    void **pNext = malloc(sizeof(char)); //criando espaço para o ponteiro para o proximo
+     void **pPrevious = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior
     
     void *infos = malloc((sizeof(char) * 10) + (sizeof(int) * 2) + (sizeof(char) * 2)); //alocando espaço para as informações
-    //**pNext = *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2)));
-    //**pPrevios = *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)));
+    pNext = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2)));
+    pPrevious = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)));
 
     printf("\nNome: ");
     scanf("%s", (char *)infos);
@@ -62,8 +62,8 @@ void *push(void **pBuffer, void **pFirst){
         pBuffer = realloc(pBuffer, sizeof(int) * (*nCount)); //realocando espaço para armazenar os ponteiros de cada cadastro
         *pBuffer = infos; //aponta para as informações
         *(pFirst + sizeof(int)) = pBuffer;//atualiza o ponteiro para a primeira posição do buffer
-        *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = NULL; //next NULL
-        *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))) = NULL; //previous NULL
+        *pNext = NULL; //next NULL
+        *pPrevious = NULL; //previous NULL
 
     }else{
         pBuffer = realloc(pBuffer, sizeof(int) * (*nCount)); //aloca mais um espaço para um endereço de memoria para as infos
