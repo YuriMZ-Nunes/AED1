@@ -5,7 +5,9 @@
 
 void *push(void **pBuffer, void **pFirst);
 void *pop(void **pBuffer, void **pFirst);
+void *search(void **pBuffer, void **pFirst);
 void *list(void **pBuffer, void **pFirst);
+void *exitProgram(void **pBuffer, void **pFirst);
 
 int main(){
     void **pBuffer = NULL; // Buffer de pessoas
@@ -15,7 +17,7 @@ int main(){
     *(pFirst + (sizeof(int))) = pBuffer; 
 
     while(1){
-        printf("\n1. ADD\n2. DELETE\n3. BUSCAR\n4. DELETAR\n5. SAIR\n");
+        printf("\n1. ADD\n2. DELETE\n3. BUSCAR\n4. LISTAR\n5. SAIR\n");
         switch(getchar()){
             case '1':
                 pBuffer = push(pBuffer, pFirst);
@@ -25,11 +27,16 @@ int main(){
                 pBuffer = pop(pBuffer, pFirst);
                 getchar();
                 break;
+            case '3':
+                search(pBuffer, pFirst);
+                getchar();
+                break;
             case '4':
                 list(pBuffer, pFirst);
                 getchar();
                 break;
             case '5':
+                exitProgram(pBuffer, pFirst);
                 break;
         }
     }
@@ -44,12 +51,20 @@ void *push(void **pBuffer, void **pFirst){
     int *i = malloc(sizeof(int));
     int *j = malloc(sizeof(int));
 
-    void **pNext = malloc(sizeof(char)); //criando espaço para o ponteiro para o proximo
-     void **pPrevious = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior
+    void **pNextNew = malloc(sizeof(char)); //criando espaço para o ponteiro para o proximo do novo nó
+    void **pPreviousNew = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior do novo nó
+    void **pNext = malloc(sizeof(char)); //criando espaço para o ponteiro para o proximo para atualizar o nó anterior
+    void **pPrevious = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior para atualizar o proximo nó
+
+    *pNextNew = NULL;
+    *pPreviousNew = NULL;
+    *pNext = NULL;
+    *pPrevious = NULL;
     
     void *infos = malloc((sizeof(char) * 10) + (sizeof(int) * 2) + (sizeof(char) * 2)); //alocando espaço para as informações
-    pNext = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2)));
-    pPrevious = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)));
+
+    pNextNew = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2))); //aponta para a posição que será armazenado o ponteiro para o proximo
+    pPreviousNew = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))); //aponta para a posição que será armazenado o ponteiro para o anterior
 
     printf("\nNome: ");
     scanf("%s", (char *)infos);
@@ -62,13 +77,17 @@ void *push(void **pBuffer, void **pFirst){
         pBuffer = realloc(pBuffer, sizeof(int) * (*nCount)); //realocando espaço para armazenar os ponteiros de cada cadastro
         *pBuffer = infos; //aponta para as informações
         *(pFirst + sizeof(int)) = pBuffer;//atualiza o ponteiro para a primeira posição do buffer
-        *pNext = NULL; //next NULL
-        *pPrevious = NULL; //previous NULL
+        pNextNew = NULL; //next NULL
+        pPreviousNew = NULL; //previous NULL
 
     }else{
         pBuffer = realloc(pBuffer, sizeof(int) * (*nCount)); //aloca mais um espaço para um endereço de memoria para as infos
 
         for(*i = 0; *i < (*nCount - 1); *i+=1){
+
+            pNext = (*(pBuffer + (*i - 1)) + (sizeof(char) * 10) + (sizeof(int) * 2));
+            pPrevious = (*(pBuffer + (*i + 1)) + (sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char));
+
             if(strcmp((char *)infos, (char *)(*(pBuffer + *i))) < 0){//compara os nomes para ver em que posição ele deve ficar
                 for(*j = (*nCount - 1); *j > *i; *j-=1){
                     *(pBuffer  + (*j)) = *(pBuffer  + (*j - 1));//move os ponteiros para as infos para abrir espaço
@@ -77,16 +96,16 @@ void *push(void **pBuffer, void **pFirst){
                 
                 if(*i == 0){//verifica se é o primeiro item da lista
                     *(pFirst + sizeof(int)) = pBuffer;
-                    *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(pBuffer + (*i) + 1); //armazena o next
-                    *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))) = NULL; //previous NULL pois é a primeira posição do buffer
+                    pNextNew = *(pBuffer + (*i) + 1);//armazena o next
+                    pPreviousNew = NULL; //previous NULL pois é a primeira posição do buffer
 
-                    *(char *)(*(pBuffer + (*i + 1)) + (sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)) = *(pBuffer + (*i));//atualiza o previous do proximo
+                    pPrevious = *(pBuffer + (*i));//atualiza o previous do proximo
                 }else{//verifica se ficará no meio da lista
-                    *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(pBuffer + (*i) + 1); //armazena o next
-                    *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))) = *(pBuffer + (*i) - 1); //armazena o previous
+                    pNextNew = *(pBuffer + (*i) + 1); //armazena o next
+                    pPreviousNew = *(pBuffer + (*i) - 1); //armazena o previous
                     
-                    *(char *)(*(pBuffer + (*i - 1)) + (sizeof(char) * 10) + (sizeof(int) * 2)) = *(pBuffer + (*i));//atualiza o next do anterior
-                    *(char *)(*(pBuffer + (*i + 1)) + (sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)) = *(pBuffer + (*i));//atualiza o previous do proximo
+                    pNext = *(pBuffer + (*i));//atualiza o next do anterior
+                    pPrevious = *(pBuffer + (*i));//atualiza o previous do proximo
                 }
                 *i = 0;
                 break;
@@ -94,10 +113,10 @@ void *push(void **pBuffer, void **pFirst){
         }
         if(*i == *nCount - 1){ //verifica se é o ultimo item da lista
             *(pBuffer + *i) = infos;
-            *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = NULL; //armazena o next
-            *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))) = *(pBuffer + (*i) - 1); //armazena o previous
+            pNextNew = NULL; //armazena o next
+            pPreviousNew = *(pBuffer + (*i) - 1); //armazena o previous
 
-            *(char *)(*(pBuffer + (*i - 1)) + (sizeof(char) * 10) + (sizeof(int) * 2)) = *(pBuffer + (*i));//atualiza o next do anterior
+            pNext = *(pBuffer + (*i));//atualiza o next do anterior
         }
     }
 
@@ -112,6 +131,10 @@ void *pop(void **pBuffer, void **pFirst){
     void *infos; //variavel para armazenar o endereço das infos 
     infos = *pBuffer;
 
+    void **pPreviousNew = malloc(sizeof(char)); //criando espaço para o ponteiro para o anterior do nó
+    *pPreviousNew = NULL;
+    pPreviousNew = (infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char)));
+
     int *i = malloc(sizeof(int));
 
     for(*i = 0; *i < (*nCount - 1); *i+=1){
@@ -120,17 +143,54 @@ void *pop(void **pBuffer, void **pFirst){
     *i = 0;
 
     
-    *(char *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(char))) = NULL; //atualiza o previous da primeira posição para NULL
+    pPreviousNew = NULL; //atualiza o previous da primeira posição para NULL
 
     *(int *)pFirst -= 1; //diminui a quantidade
     *(pFirst + sizeof(int)) = pBuffer;
+    free(infos);
     pBuffer = realloc(pBuffer, sizeof(int) * (*nCount));
-    //free(*popInfos);
 
+
+    printf("\nCADASTRO REMOVIDO!!\n");
     return(pBuffer);
 }
 
+void *search(void **pBuffer, void **pFirst){
+
+    int *nCount = malloc(sizeof(int));
+    nCount = (int *)pFirst; //variavel para usar o numero de cadastros
+
+    char *nameSearch = malloc(sizeof(char) * 10);
+    int *find = malloc(sizeof(int));//variavel para verificar se foi encontrado um nome 
+    *find = 0;
+
+    void *infos;
+
+    int *i = malloc(sizeof(int));
+
+    printf("\nDigite um nome para busca: ");
+    scanf("%s", nameSearch);
+
+    for(*i = 0; *i < *nCount; *i+=1){
+        infos = *(pBuffer + *i);
+        if(strcmp((char *)infos, (char *)nameSearch) == 0){
+            printf("\nENCONTRADO!!\n");
+            printf("\nNome: %s", (char *)infos);
+            printf("\nIdade: %d", *(int *)(infos + (sizeof(char) * 10)));
+            printf("\nTelefone: %d\n", *(int *)(infos + (sizeof(char) * 10) + sizeof(int)));
+            *find = 1;
+        }
+    }
+    if(*find == 0){
+        printf("\nNAO ENCONTRADO!!\n");
+    }
+
+    return 0;
+
+}
+
 void *list(void **pBuffer, void **pFirst){
+
     int *nCount = malloc(sizeof(int));
     nCount = (int *)pFirst; //variavel para usar o numero de cadastros
 
@@ -149,6 +209,26 @@ void *list(void **pBuffer, void **pFirst){
     }
 
     return 0;
+}
+
+void *exitProgram(void **pBuffer, void **pFirst){
+
+    int *nCount = malloc(sizeof(int));
+    nCount = (int *)pFirst; //variavel para usar o numero de cadastros
+
+    int *i = malloc(sizeof(int));
+
+    void *infos;
+
+    for(*i = 0; *i < *nCount; *i+=1){
+        infos = *(pBuffer + *i);
+        free(infos);
+    }
+
+    free(pFirst);
+    free(pBuffer);
+    
+    exit(0);
 }
 
 
