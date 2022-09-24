@@ -1,58 +1,69 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int *push(int *pBuffer);
-int *pop(int *pBuffer);
-int *list(int *pBuffer);
+typedef struct{
+	char nome[10];
+}Aluno;
 
+typedef struct{
+	Aluno *alunos;
+	Aluno *topo;
+	Aluno *base;
+	int limite;
+}Pilha;
+
+void Reset(Pilha *pilha);
+void push(Pilha *pilha, Aluno *item);
+void pop(Pilha *pilha, Aluno *aluno);
 
 int main(){
-	int *pBuffer = malloc(sizeof(int));
-	//quantidade de itens armazenados na primeira posição
-	*pBuffer = 0;
+	Aluno *item = (Aluno *)malloc(sizeof(Aluno));
 
-	while(1){
-		printf("\n1. Adicionar\n2. Remover\n3. Listar\n4. Sair\n");
+	Pilha *pilha = (Pilha *)malloc(sizeof(Pilha));
 
+	pilha -> alunos = NULL;
+	pilha -> topo = NULL;
+	pilha -> base = NULL;
+	pilha -> limite = 0;
+
+	while (1){
 		switch(getchar()){
 			case '1':
-				pBuffer = push(pBuffer);
+				printf("\nDigite um nome: ");
+				scanf("%s", item -> nome);
+				push(pilha, item);
 				getchar();
 				break;
 			case '2':
-				pBuffer = pop(pBuffer);
+				Aluno aluno;
+				pop(pilha, &aluno);
 				getchar();
 				break;
-			case '3':
-				list(pBuffer);
-				getchar();
-				break;
-			case '4':
-				free(pBuffer);
-				exit(0);
 		}
+		
 	}
-}
-
-int *push(int *pBuffer){
-	*pBuffer += 1;
-	pBuffer = realloc(pBuffer, ((*pBuffer) * sizeof(int)) + sizeof(int));
-	printf("\nDigite um valor: ");
-	scanf("%d", pBuffer + *pBuffer);
-
-	return(pBuffer);
-}
-
-int *list(int *pBuffer){
-	for(int i = 0; i < *pBuffer; i++){
-		printf("[ %d ] ", *(pBuffer + (i + 1)));
-	}
-	return 0;
-}
-
-int *pop(int *pBuffer){
-	*pBuffer -= 1;
-	pBuffer = realloc(pBuffer, ((*pBuffer) * sizeof(int)) + sizeof(int));
 	
-	return(pBuffer);
+
+	
+}
+
+
+
+void push(Pilha *pilha, Aluno *item){
+	Aluno *alunos;
+
+	pilha -> limite++;
+
+	alunos = (Aluno *)malloc(sizeof(Aluno));
+
+	pilha -> alunos = alunos;
+	pilha -> alunos[pilha -> limite -1] = *item;
+	pilha -> topo = &pilha -> alunos[pilha -> limite - 1];
+	pilha -> base = pilha -> alunos;
+
+}
+
+void pop(Pilha *pilha, Aluno *aluno){
+
+	aluno = pilha -> topo;
 }

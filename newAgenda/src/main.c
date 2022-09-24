@@ -2,20 +2,20 @@
 #include <stdlib.h>
 #include <string.h>
 
-void *push(void *pFirst, void *pAtual, void *pAnt);
-void *pop(void *pFirst);
-void *search(void *pFirst, void *pAtual);
-void *list(void *pFirst, void *pAtual);
-void *exitProgram(void *pFirst, void *pAtual, void *pAnt);
+void *push(void **pFirst, void **pAtual, void **pAnt);
+void *pop(void **pFirst);
+void *search(void **pFirst, void **pAtual);
+void *list(void **pFirst, void **pAtual);
+void *exitProgram(void **pFirst, void **pAtual, void **pAnt);
 
 
 int main()
 {
-	void *pFirst = malloc(sizeof(int)); //aponta para a primeira pessoa 
-	void *pAtual = malloc(sizeof(int)); //ponteiro para o nó atual para percorrer
-	void *pAnt = malloc(sizeof(int)); //ponteiro para o nó anteior para atualizar o ponteiro para o prox
+	void **pFirst = malloc(sizeof(int)); //aponta para a primeira pessoa 
+	void **pAtual = malloc(sizeof(int)); //ponteiro para o nó atual para percorrer
+	void **pAnt = malloc(sizeof(int)); //ponteiro para o nó anteior para atualizar o ponteiro para o prox
 
-	*(void **)pFirst = NULL; //aponta para nulo pois não existe nenhum cadastro
+	*pFirst = NULL; //aponta para nulo pois não existe nenhum cadastro
 
 	while(1){
         printf("\n1. ADD\n2. DELETE\n3. BUSCAR\n4. LISTAR\n5. SAIR\n");
@@ -43,11 +43,11 @@ int main()
     }
 }
 
-void *push(void *pFirst, void *pAtual, void *pAnt){
+void *push(void **pFirst, void **pAtual, void **pAnt){
 
 	void *infos = malloc((sizeof(char) * 10) + (sizeof(int) * 2) + (sizeof(int) * 2));	//criação do nó da pessoa
 
-	*(void **)pAtual = *(void **)pFirst; //atual começa pelo primeiro
+	*pAtual = *pFirst; //atual começa pelo primeiro
 
 	printf("\nNome: ");
     scanf("%s", (char *)infos);
@@ -56,16 +56,16 @@ void *push(void *pFirst, void *pAtual, void *pAnt){
     printf("\nTelefone: ");
     scanf("%d", (int *)(infos + (sizeof(char) * 10) + sizeof(int)));
 
-	if((void **)pFirst == NULL){ //verifica se é o primeiro cadastro
-		*(void **)pFirst = infos; //atualiza o ponteiro para o primeiro
+	if(*pFirst == NULL){ //verifica se é o primeiro cadastro
+		*pFirst = infos; //atualiza o ponteiro para o primeiro
 		*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0;
 		*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;
 		
 	}else{
-		if((void **)(pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) == NULL){ //verifica se só existe um cadastro
-			if(strcmp((char *)infos, (char **)(pAtual)) < 0){
-				if((void **)pAtual == (void **)pFirst){ //verifica se será adicionado no topo da lista
-					*(void **)pFirst = infos;
+		if(*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){ //verifica se só existe um cadastro
+			if(strcmp((char *)infos, (char *)(*pAtual)) < 0){
+				if((int *)*pAtual == (int *)*pFirst){ //verifica se será adicionado no topo da lista
+					*pFirst = infos;
 					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual; //atualiza o next
 					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;
 
@@ -122,7 +122,7 @@ void *push(void *pFirst, void *pAtual, void *pAnt){
 	return (0);
 }
 
-void *pop(void *pFirst){
+void *pop(void **pFirst){
 
 	void *delete;
 	void **infos = (void **)pFirst;
@@ -141,7 +141,7 @@ void *pop(void *pFirst){
 	return(0);
 }
 
-void *search(void *pFirst, void *pAtual){
+void *search(void **pFirst, void **pAtual){
 
 	char *nameSearch = malloc(sizeof(char) * 10);
 
@@ -170,7 +170,7 @@ void *search(void *pFirst, void *pAtual){
 }
 
 
-void *list(void *pFirst, void *pAtual){
+void *list(void **pFirst, void **pAtual){
 
 	*pAtual = *pFirst; //atual começa pelo primeiro
 
@@ -187,7 +187,7 @@ void *list(void *pFirst, void *pAtual){
 	return(0);
 }
 
-void *exitProgram(void *pFirst, void *pAtual, void *pAnt){
+void *exitProgram(void **pFirst, void **pAtual, void **pAnt){
 
 	void *delete;
 	void **infos = (void **)pFirst;
