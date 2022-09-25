@@ -25,7 +25,11 @@ int main()
                 getchar();
                 break;
             case '2':
-                pop(pFirst);
+				if(*pFirst != NULL){
+                	pop(pFirst);
+				}else{
+					printf("Nenhum valor para excluir");
+				}
                 getchar();
                 break;
             case '3':
@@ -63,59 +67,59 @@ void *push(void **pFirst, void **pAtual, void **pAnt){
 		
 	}else{
 		if(*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){ //verifica se só existe um cadastro
-			if(strcmp((char *)infos, (char *)(*pAtual)) < 0){
+			if(strcmp((char *)infos, (char *)(*pAtual)) < 0){	//compara os nomes
 				if((int *)*pAtual == (int *)*pFirst){ //verifica se será adicionado no topo da lista
-					*pFirst = infos;
+					*pFirst = infos;	//atualiza o ponteiro para o primeiro
 					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual; //atualiza o next
-					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;
+					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0; //atualiza o prev
 
-					*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0;
-					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos;
+					*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0;	//atualiza o next da pessoa atual
+					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos; //atualiza o prev da pessoa atual
 
 				}
-			}else{
+			}else{ //será adicionado no fim
 					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0; //atualiza o next
-					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = *(int *)pAtual;
+					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = *(int *)pAtual; //atualiza o prev
 
-					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos;
-					*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;
+					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos; //atualiza o next da pessoa atual
+					*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0; //atualiza o prev da pessoa atual
 
 				}
 		}else{
 			while(*(int *)(pAtual) != 0){
 				if(strcmp((char *)infos, (char *)(*pAtual)) < 0){
 					if((int *)*pAtual == (int *)*pFirst){ //verifica se será adicionado no topo da lista
-						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual;
-						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;
+						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual; //atualiza o next
+						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0;//atualiza o prev
 
-						*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos;
+						*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos; //atualiza o prev da pessoa atual
 
-						*pFirst = infos;
+						*pFirst = infos; //atualiza o ponteiro para o primeiro
 						break;
 					}else{ //add no meio
-						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual;
-						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = (int)*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int)));
+						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = *(int *)pAtual; //atualiza o next
+						*(int *)pAnt = (int)*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))); // recebe o endereço do anterior
+						*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = *(int *)pAnt; // atualiza o prev com o endereço do anterior
+						
+						*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos; //atualiza o prev da pessoa atual
 					
-						*(int *)pAnt = (int)*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int)));
-						*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = infos;
-					
-						*(void **)(*pAnt + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos;
+						*(void **)(*pAnt + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos; //atualiza o next da pessoa anteior
 						break;
 					}
 
 				}
 
-				if(*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){
+				if(*(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){ //verifica se será adicionado no final
 					
-					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0;
-					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = *(int *)pAtual;
+					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2))) = 0; //atualiza o next
+					*(int *)(infos + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = *(int *)pAtual; //atualiza o pre
 
-					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos;
+					*(void **)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))) = infos; //atualiza o next da pessoa atual
 					
 					break;
 				}
 
-				*(int *)pAtual = *(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2)));
+				*(int *)pAtual = *(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))); //incrementa o atual passando para a proxima pessoa
 			}	
 		}
 	}
@@ -124,18 +128,24 @@ void *push(void **pFirst, void **pAtual, void **pAnt){
 
 void *pop(void **pFirst){
 
-	void *delete;
-	void **infos = (void **)pFirst;
+	void *delete; //ponteiro para receber o endereço dos dados
 
 	if(pFirst){
-		delete = *(void **)(infos);
-		if(*(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){
-			free(delete);
+		delete = *(void **)(pFirst); //recebe o endereço dos dados
+		if(*(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){ //verifica se há apenas um cadastro para não incrementar
+			free(delete); //libera da memora os dados 
+			
+			printf("\nREMOVIDO COM SUCESSO!");
+			*pFirst = NULL;
 			return (0);
 		}
 
-		*(int *)pFirst = *(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2)));
-		free(delete);
+		*(int *)pFirst = *(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2))); //atualiza o primeiro
+		*(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2) + sizeof(int))) = 0; //atualiza o prev 
+
+		free(delete); //libera da memora os dados
+
+		printf("\nREMOVIDO COM SUCESSO!");
 	}
 
 	return(0);
@@ -143,16 +153,16 @@ void *pop(void **pFirst){
 
 void *search(void **pFirst, void **pAtual){
 
-	char *nameSearch = malloc(sizeof(char) * 10);
+	char *nameSearch = malloc(sizeof(char) * 10); //ponteiro para um nome para busca
 
 	printf("\nBuscar nome: ");
 	scanf("%s", nameSearch);
 
 	*pAtual = *pFirst;
 
-	while(*(int *)(pAtual) != 0){
+	while(*(int *)(pAtual) != 0){ //percorre
 
-		if(strcmp((char *)*pAtual, (char *)nameSearch) == 0){
+		if(strcmp((char *)*pAtual, (char *)nameSearch) == 0){ //faz a busca e impreme caso encontre
 			printf("\nNome encontrado!");
 			printf("\nNome: %s", (char *)*pAtual);
 			printf("\nIdade: %d", *(int *)(*pAtual + (sizeof(char) * 10)));
@@ -161,7 +171,7 @@ void *search(void **pFirst, void **pAtual){
 			return(0);
 		}
 
-		*(int *)pAtual = *(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2)));
+		*(int *)pAtual = *(int *)(*pAtual + ((sizeof(char) * 10) + (sizeof(int) * 2))); //incrementa
 	}
 
 	printf("\nNenhum nome encontrado!");
@@ -174,7 +184,7 @@ void *list(void **pFirst, void **pAtual){
 
 	*pAtual = *pFirst; //atual começa pelo primeiro
 
-	while(*(int *)(pAtual) != 0){
+	while(*(int *)(pAtual) != 0){ //percorre e lista 
 
 		printf("\n----------------");
 		printf("\nNome: %s", (char *)*pAtual);
@@ -189,13 +199,12 @@ void *list(void **pFirst, void **pAtual){
 
 void *exitProgram(void **pFirst, void **pAtual, void **pAnt){
 
-	void *delete;
-	void **infos = (void **)pFirst;
+	void *delete; //ponteiro para o endereço dos dados
 
 	if(pFirst){
 		while(1){
-			delete = *(void **)(infos);
-			if(*(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){
+			delete = *(void **)(pFirst);
+			if(*(int *)(*pFirst + ((sizeof(char) * 10) + (sizeof(int) * 2))) == 0){ //verifica se só tem um cadastro para não incrementar
 				free(delete);
 				
 				free(pFirst);
