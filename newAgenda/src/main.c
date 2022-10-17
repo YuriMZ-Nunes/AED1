@@ -7,7 +7,7 @@ void *pop(void **pFirst);
 void *search(void **pFirst, void **pAtual);
 void *list(void **pFirst, void **pAtual);
 void *exitProgram(void **pFirst, void **pAtual, void **pAnt);
-
+//teste
 
 int main()
 {
