@@ -17,11 +17,11 @@ typedef struct{
 	int dia, mes, ano;
 }data;
 
-typedef struct compromisso{
+typedef struct{
 	data dataCompromisso;
 	horario horaCompromisso;
 	char desctricao[100];
-};
+}compromisso;
 
 int main()
 {
