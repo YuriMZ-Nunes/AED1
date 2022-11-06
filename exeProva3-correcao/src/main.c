@@ -7,7 +7,7 @@ typedef struct NODE{
 }NODE;
 
 NODE* push(NODE *root, int num);
-NODE* searchValue(NODE *root, int numRotacao, int rotateOption);
+NODE* searchValue(NODE *root, int num, int rotateOption);
 NODE* rotateLeft(NODE *root);
 NODE* rotateRight(NODE *root);
 NODE* newNode(int num);
