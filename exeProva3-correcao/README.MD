@@ -1,7 +1,7 @@
 # Yuri de Melo Zorzoli Nunes - Turma M2
 
 # Link do video:
-
+https://drive.google.com/file/d/1mkMcjMf0Hn2gCCurky3UiZSFBt1_fD44/view?usp=share_link
 
 ------------------------------------------------------------------------------------------
 
@@ -49,5 +49,9 @@ https://github.com/YuriMZ-Nunes/AED1/tree/master/exeProva3-correcao
     - Inserir na ordem: 50, 35, 60, 20, 48, 56, 76, 37, 67, 98 e 85;
     - Listar
     - Rotação á esquerda no nó 60
-    - Listar 
+    - Listar
+    - Excluir nó 76
+    - Listar
+    - Rotação á direita no nó 50
+    - Listar
     - Sair
