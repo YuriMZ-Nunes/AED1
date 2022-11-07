@@ -18,7 +18,7 @@ int main(){
 	int num, numRotacao;
 
 	while(1){
-		printf("\n\t1. inserir\n\t2. girar algum nó\n\t3. listar ");
+		printf("\n\t1. inserir\n\t2. girar algum no\n\t3. listar ");
 		switch(getchar()){
 			case '1':
 				printf("\nDigite um valor: ");
