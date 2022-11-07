@@ -45,7 +45,7 @@ https://github.com/YuriMZ-Nunes/AED1/tree/master/exeProva3-correcao
     - Listar
     - Sair
 
-2º teste:
+- 2º teste:
     - Inserir na ordem: 50, 35, 60, 20, 48, 56, 76, 37, 67, 98 e 85;
     - Listar
     - Rotação á esquerda no nó 60
