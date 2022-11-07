@@ -31,7 +31,7 @@ https://github.com/YuriMZ-Nunes/AED1/tree/master/exeProva3-correcao
 
 # Lista de testes:
 
-1º teste:
+- 1º teste:
     - Inserir na ordem: 30, 50 e 60
     - Listar
     - Rotação á esquerda no nó 30
