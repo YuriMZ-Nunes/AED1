@@ -37,8 +37,8 @@ void mergeSort(int data[], int begin, int end){
 	int mid;
 	if(begin < end){
 		mid = floor((begin + end) / 2);
-		mergeSort(data, begin, mid);
-		mergeSort(data, mid+1, end);
+		mergeSort(data, begin, mid); //O(N)
+		mergeSort(data, mid+1, end); //O(N)
 		merge(data, begin, mid,end);
 	}
 }
@@ -51,7 +51,7 @@ void merge(int data[], int begin, int mid, int end){
 	p2 = mid + 1;
 	temp = (int *)malloc(size * sizeof(int));
 	if(temp != NULL){
-		for(i = 0; i < size; i++){
+		for(i = 0; i < size; i++){ // O(N)
 			if(!end1 && !end2){
 				if(data[p1] < data[p2])
 					temp[i] = data[p1++];
@@ -68,7 +68,7 @@ void merge(int data[], int begin, int mid, int end){
 					temp[i] = data[p2++];
 			}
 		}
-		for(j = 0, k = begin; j < size; j++, k++)
+		for(j = 0, k = begin; j < size; j++, k++) //O(N)
 			data[k] = temp[j];
 	}
 	free(temp);
