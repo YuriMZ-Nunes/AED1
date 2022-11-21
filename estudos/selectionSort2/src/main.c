@@ -18,18 +18,25 @@ int main(){
 		data[i] = rand() % 100;
 	}
 
+	for(int i=0; i<n; i++)
+		printf("[%d] ", data[i]);
 
+	printf("\n");
+
+	selectionSort(data, n);
+
+	for(int i=0; i<n; i++)
+		printf("[%d] ", data[i]);
 }
 
-void selectionSort(int *data, int n){
+void selectionSort(int data[], int n){
 	int min, tmp, i, j;
 
 	for(i=0; i<n; i++){
 		min = i;
 		for(j=i+1; j<n; j++){
-			if(data[j] < min){
+			if(data[j] < data[min])
 				min = j;
-			}
 		}
 		if(min != i){
 			tmp = data[i];
